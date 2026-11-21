@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-labelledby="title description">
+  <title id="title">IMRS Data Model</title>
+  <desc id="description">Patient has many medical records, and each medical record has many AI logs.</desc>
+  <defs>
+    <style>
+      text { font-family: Arial, sans-serif; fill: #17365d; font-size: 16px; }
+      .title { font-size: 26px; font-weight: bold; }
+      .entity { stroke: #2878b5; stroke-width: 1.5; rx: 8; }
+      .name { font-size: 18px; font-weight: bold; }
+      .divider { stroke: #8398aa; stroke-width: 1; }
+      .relation { stroke: #536579; stroke-width: 2; fill: none; }
+      .cardinality { font-size: 17px; font-weight: bold; }
+      .relation-label { font-size: 14px; fill: #34495e; }
+    </style>
+  </defs>
+  <rect width="1120" height="520" fill="#ffffff"/>
+  <text class="title" x="560" y="42" text-anchor="middle">IMRS - Data Model</text>
+
+  <rect class="entity" x="35" y="100" width="315" height="320" fill="#d9eafd"/>
+  <text class="name" x="192" y="132" text-anchor="middle">Patient</text>
+  <line class="divider" x1="35" y1="148" x2="350" y2="148"/>
+  <text x="58" y="184">* patientId : UUID &lt;&lt;PK&gt;&gt;</text>
+  <line class="divider" x1="35" y1="201" x2="350" y2="201"/>
+  <text x="58" y="237">fullName : VARCHAR(150)</text>
+  <text x="58" y="273">dateOfBirth : DATE</text>
+  <text x="58" y="309">gender : VARCHAR(20)</text>
+
+  <rect class="entity" x="400" y="100" width="350" height="320" fill="#d9f5df"/>
+  <text class="name" x="575" y="132" text-anchor="middle">MedicalRecord</text>
+  <line class="divider" x1="400" y1="148" x2="750" y2="148"/>
+  <text x="423" y="184">* recordId : UUID &lt;&lt;PK&gt;&gt;</text>
+  <line class="divider" x1="400" y1="201" x2="750" y2="201"/>
+  <text x="423" y="237">* patientId : UUID &lt;&lt;FK&gt;&gt;</text>
+  <text x="423" y="273">recordType : VARCHAR(50)</text>
+  <text x="423" y="309">filePath : VARCHAR(500)</text>
+  <text x="423" y="345">extractedText : TEXT</text>
+  <text x="423" y="381">createdAt : TIMESTAMP</text>
+
+  <rect class="entity" x="800" y="100" width="285" height="320" fill="#e9ddfb"/>
+  <text class="name" x="942" y="132" text-anchor="middle">AILog</text>
+  <line class="divider" x1="800" y1="148" x2="1085" y2="148"/>
+  <text x="823" y="184">* logId : UUID &lt;&lt;PK&gt;&gt;</text>
+  <line class="divider" x1="800" y1="201" x2="1085" y2="201"/>
+  <text x="823" y="237">* recordId : UUID &lt;&lt;FK&gt;&gt;</text>
+  <text x="823" y="273">queryText : TEXT</text>
+  <text x="823" y="309">responseSummary : TEXT</text>
+  <text x="823" y="345">createdAt : TIMESTAMP</text>
+  <text x="823" y="381">status : VARCHAR(30)</text>
+
+  <line class="relation" x1="350" y1="255" x2="400" y2="255"/>
+  <text class="cardinality" x="355" y="242">1</text>
+  <text class="cardinality" x="382" y="242">0..*</text>
+  <text class="relation-label" x="375" y="282" text-anchor="middle">has</text>
+
+  <line class="relation" x1="750" y1="255" x2="800" y2="255"/>
+  <text class="cardinality" x="755" y="242">1</text>
+  <text class="cardinality" x="782" y="242">0..*</text>
+  <text class="relation-label" x="775" y="282" text-anchor="middle">has</text>
+</svg>

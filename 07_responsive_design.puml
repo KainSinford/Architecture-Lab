@@ -1,0 +1,20 @@
+@startuml
+title IMRS - Responsive Web Design
+
+left to right direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam rectangle {
+    BorderColor #2878B5
+    FontColor #17365D
+    RoundCorner 12
+}
+
+rectangle "Desktop\n\nWide viewport\n\n- Search and results side by side\n- Full navigation and detail panel\n- Keyboard and pointer controls" as Desktop #D9EAFD
+rectangle "Tablet\n\nMedium viewport\n\n- Flexible or stacked panels\n- Navigation remains available\n- Touch and pointer controls" as Tablet #D9F5DF
+rectangle "Mobile\n\nNarrow viewport\n\n- Single-column search and results\n- Compact navigation\n- Large touch-friendly controls" as Mobile #E9DDFB
+
+Desktop --> Tablet : Narrower viewport
+Tablet --> Mobile : Narrower viewport
+
+@enduml

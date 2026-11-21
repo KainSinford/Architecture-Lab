@@ -1,0 +1,50 @@
+
+@startuml
+title IMRS - Data Model
+
+left to right direction
+hide methods
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+
+skinparam class {
+  BackgroundColor #EAF4FF
+  BorderColor #2878B5
+  FontColor #17365D
+  AttributeFontColor #222222
+}
+
+entity "Patient" as Patient #D9EAFD {
+  * patientId : UUID <<PK>>
+  --
+  fullName : VARCHAR(150)
+  dateOfBirth : DATE
+  gender : VARCHAR(20)
+}
+
+entity "MedicalRecord" as MedicalRecord #D9F5DF {
+  * recordId : UUID <<PK>>
+  --
+  * patientId : UUID <<FK>>
+  recordType : VARCHAR(50)
+  filePath : VARCHAR(500)
+  extractedText : TEXT
+  createdAt : TIMESTAMP
+}
+
+entity "AILog" as AILog #E9DDFB {
+  * logId : UUID <<PK>>
+  --
+  * recordId : UUID <<FK>>
+  queryText : TEXT
+  responseSummary : TEXT
+  createdAt : TIMESTAMP
+  status : VARCHAR(30)
+}
+
+Patient ||--o{ MedicalRecord : has
+MedicalRecord ||--o{ AILog : has
+
+
+@enduml

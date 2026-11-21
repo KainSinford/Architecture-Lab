@@ -1,0 +1,59 @@
+
+@startuml
+title IMRS - Record Ingestion Class Diagram
+
+top to bottom direction
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+
+skinparam class {
+  BackgroundColor #EAF4FF
+  BorderColor #2878B5
+  FontColor #17365D
+}
+
+class PatientRecord #D9EAFD {
+  - recordId : String
+  - patientId : String
+  - rawText : String
+  - uploadedAt : DateTime
+  - sourceFileName : String
+  --
+  + validate() : Boolean
+}
+
+class RecordParser #D9F5DF {
+  - extractionEngine : String
+  - language : String
+  --
+  + extractText(record : PatientRecord) : String
+  + parseRecord(record : PatientRecord) : MedicalEntities
+  + validateInput(text : String) : Boolean
+}
+
+class PIIRedactor #FCE4D6 {
+  + redact(text : String) : String
+}
+
+class MedicalEntities #E9DDFB {
+  - entities : List<MedicalEntity>
+  - extractedAt : DateTime
+  --
+  + addEntity(entity : MedicalEntity) : void
+  + getEntities() : List<MedicalEntity>
+  + exportToJSON() : String
+}
+
+class MedicalEntity #E9DDFB {
+  - entityType : String
+  - value : String
+  - confidenceScore : Float
+}
+
+RecordParser ..> PatientRecord : reads
+RecordParser ..> PIIRedactor : sanitizes text with
+RecordParser --> MedicalEntities : creates
+MedicalEntities "1" *-- "0..*" MedicalEntity : contains
+
+@enduml

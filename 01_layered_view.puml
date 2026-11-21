@@ -1,0 +1,56 @@
+
+@startuml
+title IMRS - Layered View
+
+top to bottom direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+package "Presentation Layer" #D9EAFD {
+  class WebUIController #BFE3FF
+}
+
+package "Application Layer" #D9F5DF {
+  class AccessControlService #C6F6D5
+  class QueryOrchestrator #C6F6D5
+}
+
+package "Domain Layer" #E9DDFB {
+  class RecordParser #C6F6D5
+  class PIIRedactor #C6F6D5
+  class RetrievalService #D9D0F2
+  class ResponseGenerator #D9D0F2
+}
+
+package "Infrastructure Layer" #FFE4C7 {
+  class RelationalDBConnector #FFD9B8
+  class VectorDBConnector #FFD9B8
+  class LLMClient #FFD9B8
+}
+
+package "External Systems" #F3E8FF {
+  database PostgreSQL
+  database Qdrant
+  cloud "AI / LLM Service" as LLMService
+}
+
+WebUIController -down-> AccessControlService : authenticate request
+AccessControlService -down-> QueryOrchestrator : authorized query
+AccessControlService -down-> RecordParser : authorized upload
+
+QueryOrchestrator -down-> PIIRedactor : sanitize query
+QueryOrchestrator -down-> RetrievalService : retrieve clinical context
+QueryOrchestrator -down-> ResponseGenerator : query + retrieved context
+
+RecordParser -down-> PIIRedactor : sanitize extracted text
+RecordParser -down-> RelationalDBConnector : save record
+RetrievalService -down-> RelationalDBConnector : read clinical metadata
+RetrievalService -down-> VectorDBConnector : search clinical content
+ResponseGenerator -down-> LLMClient : generate response
+
+RelationalDBConnector -down-> PostgreSQL : SQL
+VectorDBConnector -down-> Qdrant : vector query
+LLMClient -down-> LLMService : prompt / completion
+
+@enduml

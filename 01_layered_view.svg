@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1110" viewBox="0 0 1200 1110" role="img" aria-labelledby="title description">
+  <title id="title">IMRS Layered View</title>
+  <desc id="description">IMRS presentation, application, domain, infrastructure, and external system layers with their dependencies.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#536579"/>
+    </marker>
+    <style>
+      text { font-family: Arial, sans-serif; fill: #17365d; }
+      .layer { stroke: #9aaabd; stroke-width: 1.5; rx: 12; }
+      .node { stroke: #2878b5; stroke-width: 1.5; rx: 9; }
+      .label { font-size: 19px; font-weight: bold; }
+      .node-label { font-size: 16px; font-weight: bold; }
+      .edge-label { font-size: 12px; fill: #34495e; }
+      .edge { fill: none; stroke: #536579; stroke-width: 1.7; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1200" height="1110" fill="#ffffff"/>
+  <text x="600" y="38" text-anchor="middle" font-size="26" font-weight="bold">IMRS - Layered View</text>
+
+  <rect class="layer" x="30" y="60" width="1140" height="105" fill="#d9eafd"/>
+  <text class="label" x="52" y="91">Presentation Layer</text>
+  <rect class="node" x="420" y="98" width="360" height="48" fill="#bfe3ff"/>
+  <text class="node-label" x="600" y="128" text-anchor="middle">WebUIController</text>
+
+  <rect class="layer" x="30" y="180" width="1140" height="150" fill="#d9f5df"/>
+  <text class="label" x="52" y="211">Application Layer</text>
+  <rect class="node" x="180" y="237" width="360" height="55" fill="#c6f6d5"/>
+  <text class="node-label" x="360" y="271" text-anchor="middle">AccessControlService</text>
+  <rect class="node" x="660" y="237" width="360" height="55" fill="#c6f6d5"/>
+  <text class="node-label" x="840" y="271" text-anchor="middle">QueryOrchestrator</text>
+
+  <rect class="layer" x="30" y="345" width="1140" height="210" fill="#e9ddfb"/>
+  <text class="label" x="52" y="376">Domain Layer</text>
+  <rect class="node" x="75" y="405" width="240" height="55" fill="#c6f6d5"/>
+  <text class="node-label" x="195" y="439" text-anchor="middle">RecordParser</text>
+  <rect class="node" x="355" y="405" width="220" height="55" fill="#c6f6d5"/>
+  <text class="node-label" x="465" y="439" text-anchor="middle">PIIRedactor</text>
+  <rect class="node" x="615" y="405" width="250" height="55" fill="#d9d0f2"/>
+  <text class="node-label" x="740" y="439" text-anchor="middle">RetrievalService</text>
+  <rect class="node" x="905" y="405" width="220" height="55" fill="#d9d0f2"/>
+  <text class="node-label" x="1015" y="439" text-anchor="middle">ResponseGenerator</text>
+  <text class="edge-label" x="600" y="508" text-anchor="middle">Sanitize text and query; retrieve context; generate the answer</text>
+
+  <rect class="layer" x="30" y="570" width="1140" height="170" fill="#ffe4c7"/>
+  <text class="label" x="52" y="601">Infrastructure Layer</text>
+  <rect class="node" x="110" y="635" width="300" height="55" fill="#ffd9b8"/>
+  <text class="node-label" x="260" y="669" text-anchor="middle">RelationalDBConnector</text>
+  <rect class="node" x="450" y="635" width="300" height="55" fill="#ffd9b8"/>
+  <text class="node-label" x="600" y="669" text-anchor="middle">VectorDBConnector</text>
+  <rect class="node" x="790" y="635" width="300" height="55" fill="#ffd9b8"/>
+  <text class="node-label" x="940" y="669" text-anchor="middle">LLMClient</text>
+
+  <rect class="layer" x="30" y="755" width="1140" height="150" fill="#f3e8ff"/>
+  <text class="label" x="52" y="786">External Systems</text>
+  <rect class="node" x="145" y="820" width="260" height="55" fill="#ffffff"/>
+  <text class="node-label" x="275" y="854" text-anchor="middle">PostgreSQL</text>
+  <rect class="node" x="470" y="820" width="260" height="55" fill="#ffffff"/>
+  <text class="node-label" x="600" y="854" text-anchor="middle">Qdrant</text>
+  <rect class="node" x="795" y="820" width="300" height="55" fill="#ffffff"/>
+  <text class="node-label" x="945" y="854" text-anchor="middle">AI / LLM Service</text>
+
+  <path class="edge" d="M600 146 L600 195 L360 195 L360 237"/>
+  <path class="edge" d="M540 264 L660 264"/>
+  <path class="edge" d="M600 146 L600 350 L195 350 L195 405"/>
+  <path class="edge" d="M840 292 L840 350 L465 350 L465 405"/>
+  <path class="edge" d="M840 292 L840 405"/>
+  <path class="edge" d="M840 292 L840 385 L1015 385 L1015 405"/>
+  <path class="edge" d="M315 432 L355 432"/>
+  <path class="edge" d="M195 460 L195 612 L260 612 L260 635"/>
+  <path class="edge" d="M740 460 L740 612 L260 612 L260 635"/>
+  <path class="edge" d="M740 460 L740 635 L600 635"/>
+  <path class="edge" d="M1015 460 L1015 635 L940 635"/>
+  <path class="edge" d="M260 690 L260 820"/>
+  <path class="edge" d="M600 690 L600 820"/>
+  <path class="edge" d="M940 690 L940 820"/>
+  <text class="edge-label" x="280" y="800">SQL</text>
+  <text class="edge-label" x="615" y="800">Vector query</text>
+  <text class="edge-label" x="955" y="800">Prompt / completion</text>
+</svg>

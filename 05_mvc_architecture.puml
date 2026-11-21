@@ -1,0 +1,49 @@
+@startuml
+title IMRS - MVC Architecture
+
+top to bottom direction
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+package "View" {
+    component "Search View" as SearchView
+    component "Record Upload View" as UploadView
+    component "Result View" as ResultView
+}
+
+package "Controller" {
+    component "Web UI Controller" as UIController
+}
+
+package "Model" {
+    component "Access Control Service" as Access
+    component "Query Orchestrator" as Query
+    component "Record Parser" as Parser
+    component "PII Redactor" as Redactor
+    component "Retrieval Service" as Retrieval
+    component "Response Generator" as Response
+}
+
+database "PostgreSQL" as PostgreSQL
+database "Qdrant" as Qdrant
+cloud "AI / LLM Service" as LLM
+
+SearchView --> UIController : Submit query
+UploadView --> UIController : Upload record
+UIController --> Access : Authenticate and authorize
+Access --> Query : Authorized search
+Access --> Parser : Authorized upload
+Query --> Redactor : Sanitize query
+Redactor --> Retrieval : Search with sanitized query
+Retrieval --> PostgreSQL : Read clinical metadata
+Retrieval --> Qdrant : Search clinical vectors
+Retrieval --> Query : Clinical context
+Query --> Response : Sanitized query and retrieved context
+Response --> LLM : Generate answer
+Parser --> Redactor : Sanitize extracted text
+Redactor --> PostgreSQL : Store sanitized record
+Query --> UIController : Answer and citations
+UIController --> ResultView : Display results
+
+@enduml

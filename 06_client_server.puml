@@ -1,0 +1,47 @@
+@startuml
+title IMRS - Client-Server Architecture
+
+left to right direction
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Arial
+
+actor Doctor
+actor "Hospital Administrator" as Admin
+
+node "Client Device" {
+    component "Web Browser\nSearch, upload, and results" as Browser
+}
+
+node "Application Server" {
+    component "Backend API" as API
+    component "Access Control" as Access
+    component "Query Orchestrator" as Query
+    component "Record Parser" as Parser
+    component "PII Redactor" as Redactor
+    component "Retrieval Service" as Retrieval
+    component "Response Generator" as Response
+}
+
+database "PostgreSQL\nClinical metadata and records" as PostgreSQL
+database "Qdrant\nClinical vectors" as Qdrant
+cloud "AI / LLM Service" as LLM
+
+Doctor --> Browser : Enter query / view answer
+Admin --> Browser : Manage system access
+Browser --> API : HTTPS / REST request
+API --> Access : Authenticate and authorize
+Access --> Query : Authorized query
+Access --> Parser : Authorized record upload
+Query --> Redactor : Sanitize query
+Redactor --> Retrieval : Search with sanitized query
+Retrieval --> PostgreSQL : Read clinical metadata
+Retrieval --> Qdrant : Search clinical vectors
+Retrieval --> Query : Clinical context
+Query --> Response : Sanitized query and retrieved context
+Response --> LLM : Generate answer
+Parser --> Redactor : Sanitize extracted text
+Redactor --> PostgreSQL : Store sanitized record
+API --> Browser : HTTPS response
+
+@enduml
